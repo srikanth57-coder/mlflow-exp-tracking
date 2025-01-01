@@ -57,4 +57,6 @@ with mlflow.start_run():
 
     # Calculate metrics
     acc = accuracy_score(y_test, y_pred)
+
+    mlflow.log_artifact(__file__)
     print("acc",acc)
