@@ -48,8 +48,10 @@ with mlflow.start_run():
     # Save the model with pickle
     pickle.dump(model1_svc, open("model.pkl", "wb"))
 
+    model = pickle.load(open('model.pkl',"rb"))
+
     # Make predictions
-    y_pred = model1_svc.predict(x_test)
+    y_pred = model.predict(x_test)
 
     # Calculate metrics
     acc = accuracy_score(y_test, y_pred)
@@ -62,18 +64,12 @@ with mlflow.start_run():
     mlflow.log_param("kernel", model1_svc.kernel)
     mlflow.log_param("degree",model1_svc.degree)
 
-    # Print the metrics
-    print("Accuracy:", acc)
-
-    # Confusion matrix
-    cf_matrix = confusion_matrix(y_test, y_pred)
-    print(cf_matrix)
-
-    # Heatmap visualization
-    sb.heatmap(cf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=df['class'].unique(), yticklabels=df['class'].unique())
-    plt.xlabel('Predicted')
-    plt.ylabel('Actual')
-    plt.show()
+    cm= confusion_matrix(y_test,y_pred)
+    plt.figure(figsize=(5,5))
+    sb.heatmap(cm,annot=True)
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.title("Confusion matric")
 
     plt.savefig("confusion_matrix.png")
 
@@ -82,3 +78,5 @@ with mlflow.start_run():
     mlflow.sklearn.log_model(model1_svc,"SVC")
 
     mlflow.log_artifact(__file__)
+
+    print("acc",acc)
