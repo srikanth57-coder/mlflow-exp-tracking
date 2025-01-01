@@ -9,10 +9,13 @@ from sklearn.svm import SVC
 import mlflow
 import mlflow.sklearn
 import pickle
+import dagshub
+dagshub.init(repo_owner='srikanth57-coder', repo_name='my-first-repo', mlflow=True)
+
 
 # Load the data
 mlflow.set_experiment("experiment-2")
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("https://dagshub.com/srikanth57-coder/my-first-repo.mlflow")
 data = pd.read_csv(r"C:\Users\M.Srikanth Reddy\Downloads\mushrooms.csv")
 df = pd.DataFrame(data)
 
